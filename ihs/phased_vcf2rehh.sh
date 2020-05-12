@@ -29,10 +29,11 @@ if [[ $data == "sub" ]]; then
                  
                        # chromosome region
                        plink2 \
+			--aec \
                        	--chr $3 \
                        	--export hapslegend \
+			--keep-allele-order \
                        	--vcf $8 \
-			--aec \
                        	--out ${6/.*}${7}_chr${3} \
                        	--from-kb $4 \
                        	--to-kb $5 \
@@ -58,10 +59,11 @@ if [[ $data == "sub" ]]; then
                  
                        # Entire chromosome
                        plink2 \
+                         --aec \
                          --chr $3 \
                          --export hapslegend \
                          --vcf $5 \
-			 --aec \
+			 --keep-allele-order \
                          --out ${4/.*}_chr$3 \
                          --keep ${4} \
                          --double-id
@@ -87,10 +89,11 @@ if [[ $data == "sub" ]]; then
                         
                 	      # Entire dataset with more than one chromosomes             
                                 plink2 \
+	                          --aec \
                                   --export hapslegend \
                                   --vcf $6 \
+				  --keep-allele-order \
                                   --chr $chr \
-				  --aec \
                                   --keep ${5} \
                                   --out $3_chr${chr} \
                                   --double-id
@@ -148,10 +151,11 @@ elif [[ $data == "all" ]]; then
          
                         # chromosome region
                         plink2 \
+			      --aec \
                               --chr $3 \
                               --export hapslegend \
                               --vcf $8 \
-			      --aec \
+			      --keep-allele-order \
                               --out ${6}${7}_chr${3} \
                               --from-kb $4 \
                               --to-kb $5 \
@@ -176,10 +180,11 @@ elif [[ $data == "all" ]]; then
          
                         # Entire chromosome
                         plink2 \
+                          --aec \
                           --chr $4 \
                           --export hapslegend \
                           --vcf $5 \
-			  --aec \
+			  --keep-allele-order \
                           --out $3_chr$4 \
                           --double-id
                
@@ -204,10 +209,11 @@ elif [[ $data == "all" ]]; then
                	
 			 # Entire dataset with more than one chromosomes
                          plink2 \
+                           --aec \
                            --export hapslegend \
                            --vcf $5 \
-			   --aec \
                	           --chr $chr \
+			   --keep-allele-order \
                            --out $3_chr${chr} \
                            --double-id
                

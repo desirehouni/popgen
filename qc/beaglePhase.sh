@@ -1,20 +1,41 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-if [[ $# == 2 ]]; then
+beaglePhase() {
+  if [[ $1 == "nref" && $# != 3 ]]; then
+     echo """
+        Usage: beaglePhase [wref|nref] [invcf] [outprfx]
+     """
+  elif [[ $1 == "nref" && $# == 3 ]]; then
+       gt=$2; out=$3
 
-    beagle \
-	gt=${1} \
-	out=${2} \
-	burnin=10 \
-	iterations=15 \
-	nthreads=4
+          beagle5 \
+             gt=${gt} \
+             out=${out} \
+             burnin=10 \
+             iterations=15 \
+  
+          tabix -f -p vcf ${2}.vcf.gz
 
-    bgzip ${2}
-    tabix -f -p vcf ${2}.vcf.gz
-
-else
-   echo """
-	Usage: ./beaglePhase.sh <vcf-file> <out-file>
-   """
-
-fi
+  elif [[ $1 == "wref" && $# != 7 ]]; then
+     echo """
+        Usage: beaglePhase [wref|nref] [invcf] [ref] [map] [burnin] [threads] [outprfx]
+     """
+  elif [[ $1 == "wref" && $# == 7 ]]; then
+       gt=$2; ref=$3; map=$4; bi=$5; mi=$(( $bi*2 )); th=$6; out=$7
+       
+          beagle5 \
+             gt=${gt} \
+             ref=${ref} \
+             map=${map} \
+             burnin=${bi} \
+             iterations=${mi} \
+             nthreads=${th} \
+             out=${out}
+  
+          tabix -f -p vcf ${2}.vcf.gz
+  else
+     echo """
+        Usage: beaglePhase [wref|nref] (Run beagle5 with or without reference)
+     """
+  fi
+}
